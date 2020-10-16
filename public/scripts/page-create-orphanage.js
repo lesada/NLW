@@ -6,7 +6,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',)
 
 // Cria o icone
 const icon = L.icon({
-    iconUrl: "./public/images/map-marker.svg",
+    iconUrl: "/images/map-marker.svg",
     iconSize: [58, 68],
     iconAnchor: [29,68],
 })
@@ -44,7 +44,7 @@ function addPhotoField() {
     //colocar o clone na parte de imagens
     const input = newFieldContainer.children[0]
 
-    //ver se o benedito campo ta vazio
+    //ver se o benedito campo ta vazio 
 
     if(input.value == "") {
         return
