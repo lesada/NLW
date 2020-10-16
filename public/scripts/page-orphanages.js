@@ -1,3 +1,4 @@
+// const { orphanage } = require("../../src/pages");
 
 // Cria o mapa
 const map = L.map('mapid').setView([-30.0578553,-51.1723984], 15);  
@@ -14,15 +15,32 @@ const icon = L.icon({
   popupAnchor: [170, 2]
 })
 
+function addMarker({id, name, lat, lng}){
+
+
 // criar o benedito popup
 const popup = L.popup({
   closeButton: false,
     className: "map-popup",
     minWidth: 240,
     minHeight: 240
-}).setContent('CA Fabiana Anjo de Luz <a href="/orphanage?id=1" class="choose-orphanage"> <img src="/images/arrow-white.svg"> </a>')
+}).setContent(`${name}CA Fabiana Anjo de Luz <a href="/orphanage?id=${id}"> 
+<img src="/images/arrow-white.svg"> </a>`)
 
 //Cria o marcador
-L.marker([-30.0578553, -51.1723984], { icon })
+L.marker([lat, lng], { icon })
   .addTo(map)
   .bindPopup(popup)
+}
+
+const orphanagesSpan = document.querySelectorAll('.orphanages span')
+orphanagesSpan.forEach(span=> {
+  const orphanage = {
+    id:span.dataset.id,
+    name: span.dataset.name,
+    lat: span.dataset.lat,
+    lng: span.dataset.lng
+  }
+
+  addMarker(orphanage)
+})
