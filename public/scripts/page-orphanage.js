@@ -1,56 +1,43 @@
 const options = {
   dragging: false,
-    touchZoom: false,
-    doubleClickZoom: false,
-    scrollWheelZoom: false,
-    zoomControl: false,
-}
-// Cria o mapa
-const map = L.map('mapid', options).setView([-30.0578553,-51.1723984], 15);  
+  touchZoom: false,
+  doubleClickZoom: false,
+  scrollWheelZoom: false,
+  zoomControl: false,
+};
 
-// Cria o tittleLayer
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',)
-.addTo(map);
+const lat = document.querySelector("span[data-lat]").dataset.lat;
+const lng = document.querySelector("span[data-lng]").dataset.lng;
 
-//cria o icone
+const map = L.map("mapid", options).setView([lat, lng], 15);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
 const icon = L.icon({
   iconUrl: "/images/map-marker.svg",
   iconSize: [58, 68],
-  iconAnchor: [29,68],
-  popupAnchor: [170, 2]
-})
+  iconAnchor: [29, 68],
+  popAnchor: [170, 2],
+});
 
+L.marker([lat, lng], { icon }).addTo(map);
 
-//Cria o marcador
-L.marker([-30.0578553, -51.1723984], { icon })
-  .addTo(map)
-
-
-  /* galerizinha de imagens */
+/* image gallery */
 
 function selectImage(event) {
-  const button = event.currentTarget
+  const button = event.currentTarget;
 
- 
+  const buttons = document.querySelectorAll(".images button");
+  buttons.forEach(removeActiveClass);
 
-  const buttons = document.querySelectorAll(".images button") // achar o dito cujo que está clicado
-  buttons.forEach(removeActiveClass) //e remover a classe active:
-
-
-  
   function removeActiveClass(button) {
-    button.classList.remove('active');
+    button.classList.remove("active");
   }
-  // selecionar a imagem que tu clicou 
-  
-  const image = button.children[0]
 
-  // pega a imagem grande
-  const imageContainer = document.querySelector('.orphanage-details > img')
-  
+  const image = button.children[0];
+  const imageContainer = document.querySelector(".orphanage-details > img");
 
-  // atualiza a imagem grande
-  imageContainer.src = image.src
+  imageContainer.src = image.src;
 
-  button.classList.add('active')//e por um active
+  button.classList.add("active");
 }

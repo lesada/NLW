@@ -1,36 +1,23 @@
-//NOTAS:
-// GET - Para pedir algo/requisitar
-// POST - Salvar algo
+const express = require("express");
+const path = require("path");
 
+const pages = require("./pages.js");
 
-const { AsyncLocalStorage } = require('async_hooks');
-const { response } = require('express');
-const express = require('express'); // importa a dependencia
-const path = require('path');
-const pages = require('./pages.js');
+const server = express();
 
-
-
-const server = express (); //inicia o express
 server
+  .use(express.urlencoded({ extended: true }))
 
-// arquivos estaticos
-.use(express.static('public'))
+  .use(express.static("public"))
+  .set("views", path.join(__dirname, "views"))
+  .set("view engine", "hbs")
 
-// template engine
-.set('views', path.join(__dirname, "views"))
-.set('view engine', 'hbs')
+  .get("/", pages.index)
+  .get("/orphanage", pages.orphanage)
+  .get("/orphanages", pages.orphanages)
+  .get("/create-orphanage", pages.createOrphanage)
+  .post("/save-orphanage", pages.saveOrphanage);
 
-// ROTAS
-
-.get('/', pages.index)
-.get('/orphanage', pages.orphanage)
-.get('/orphanages', pages.orphanages)
-.get('/create-orphanage', pages.createOrphanage)
-
-
-
-
-// startar o server
-
-server.listen(5500);
+server.listen(5500, () => {
+  console.log("Server started");
+});

@@ -1,81 +1,73 @@
 //create map
-const map = L.map('mapid').setView([-27.2109325,-49.6448719], 15);
+const map = L.map("mapid").setView([-30.05785534, -51.172398], 15);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',)
-.addTo(map);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
-// Cria o icone
 const icon = L.icon({
-    iconUrl: "/images/map-marker.svg",
-    iconSize: [58, 68],
-    iconAnchor: [29,68],
-})
+  iconUrl: "/images/map-marker.svg",
+  iconSize: [58, 68],
+  iconAnchor: [29, 68],
+});
 
 let marker;
 
-//Criar o marcador
+map.on("click", (event) => {
+  const lat = event.latlng.lat;
+  const lng = event.latlng.lng;
 
-map.on('click', (event) => {
-    const lat = event.latlng.lat //latitude
-    const lng = event.latlng.lng //longitude
+  document.querySelector("[name=lat]").value = lat;
+  document.querySelector("[name=lng]").value = lng;
 
-    
-    //pega os valores
-    
-    
-    document.querySelector('[name=lat]').value = lat
-    document.querySelector('[name=lng]').value = lng
-    
-    marker && map.removeLayer(marker) // remove o icone ja clicado
+  marker && map.removeLayer(marker);
 
-    marker = L.marker([lat, lng], { icon }).addTo(map)     //Adiciona a camada do ícone
-})
-
-//Adicionar o campo de fotos
+  marker = L.marker([lat, lng], { icon }).addTo(map);
+});
 
 function addPhotoField() {
+  const container = document.querySelector("#images");
 
-    //pegar o container das imagens
-    const container = document.querySelector('#images');
-    // pegar o container e duplicar
-    const fieldsContainer = document.querySelectorAll('.new-upload')
-    //realizar o clone da ultima img
-    const newFieldContainer = fieldsContainer[fieldsContainer.length - 1].cloneNode(true)
-    //colocar o clone na parte de imagens
-    const input = newFieldContainer.children[0]
+  const fieldsContainer = document.querySelectorAll(".new-upload");
 
-    //ver se o benedito campo ta vazio 
+  const newFieldContainer = fieldsContainer[
+    fieldsContainer.length - 1
+  ].cloneNode(true);
 
-    if(input.value == "") {
-        return
-    }
+  const input = newFieldContainer.children[0];
 
-    input.value = ""
+  if (input.value == "") {
+    return;
+  }
 
-    container.appendChild(newFieldContainer)
+  input.value = "";
+
+  container.appendChild(newFieldContainer);
 }
 
 function deleteField(event) {
-    const span = event.currentTarget
+  const span = event.currentTarget;
 
-    const fieldsContainer = document.querySelectorAll('.new-upload')
+  const fieldsContainer = document.querySelectorAll(".new-upload");
 
-    if(fieldsContainer.length <= 1) {
-        span.parentNode.children[0].value = ""
-        return 
-    }
+  if (fieldsContainer.length <= 1) {
+    span.parentNode.children[0].value = "";
+    return;
+  }
 
-    span.parentNode.remove()
+  span.parentNode.remove();
 }
 
 function toggleSelect(event) {
-    document.querySelectorAll('.button-select button')
-    .forEach((button) => button.classList.remove('active'))
+  document
+    .querySelectorAll(".button-select button")
+    .forEach((button) => button.classList.remove("active"));
 
+  const button = event.currentTarget;
+  button.classList.add("active");
 
-    const button = event.currentTarget
-    button.classList.add('active')
+  const input = document.querySelector('[name="open_on_weekends"]');
+  input.value = button.dataset.value;
+}
 
-    const input = document.querySelector('[name="open_on_weekends"]')
-    input.value = button.dataset.value
+function validade(event) {
+  // event.preventDefault()
 }
